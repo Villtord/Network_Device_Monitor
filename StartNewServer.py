@@ -27,11 +27,10 @@ class PressureServer():
     def __init__(self, name_id):
         super(self.__class__, self).__init__()
         self.name_id = name_id
+        self.host = socket.gethostname()  # TODO: make explicit hostname in List_Of_Servers.py file!!!
         """find out parameters for the given server name_id"""
-        self.host = socket.gethostname()
-        print (server_list)
         self.port = server_list[self.name_id][0]
-        self.com_port_name = server_list[self.name_id][2]
+        self.com_port_name = server_list[self.name_id][1]
         self.filename_dynamic = self.name_id + '-Log-Dynamic.dat'
         self.connections_counter = 0
         self.pressure = ''
@@ -39,24 +38,6 @@ class PressureServer():
         self.old_filename = ""
         with open(self.filename_dynamic, "w+") as f:
             f.write('Time, Status Code, Pressure\n')
-
-    def on_new_client(self, clientsocket, addr):
-        """
-        This function is called in a separate thread from start() function!
-        Waits for incoming message from client and sends back pressure string.
-        """
-        while True:
-            time.sleep(0.5)  # while loop discriminator - otherwise overload
-            msg = clientsocket.recv(1024)
-            #            print (addr, ' >> ', msg)
-            if not msg:
-                self.connections_counter -= 1
-                break
-            clientsocket.send(self.pressure.encode())
-
-        print('connected ', str(self.connections_counter), ' client(s)')
-        clientsocket.shutdown(socket.SHUT_RDWR)
-        clientsocket.close()
 
     def start(self):
         """
@@ -89,19 +70,38 @@ class PressureServer():
                 print('Got connection from', addr)
                 self.connections_counter += 1
                 print('connected ', str(self.connections_counter), ' client(s)')
-                _thread.start_new_thread(self.on_new_client, (c, addr))
+                _thread.start_new_thread(self.on_new_client, (c,))
             except:
                 pass
+
+    def on_new_client(self, client_socket):
+        """
+        This function is called in a separate thread from start() function!
+        Waits for incoming message from client and sends back pressure string.
+        """
+        while True:
+            time.sleep(0.5)  # while loop discriminator - otherwise overload
+            msg = client_socket.recv(1024)
+            if not msg:
+                self.connections_counter -= 1
+                break
+            client_socket.send(self.pressure.encode())
+
+        print('connected ', str(self.connections_counter), ' client(s)')
+        client_socket.shutdown(socket.SHUT_RDWR)
+        client_socket.close()
 
     def update_pressure_thread(self):
         """ Receive pressure string """
         try:
             self.pressure = get_pressure(self.com_port_name)
             print(self.pressure)
+            self.log_the_data()
         except:
             print('no pressure received')
             pass
 
+    def log_the_data(self):
         """ Log the data to a file """
         filename = self.name_id + '_pressure_Log_' + dt.datetime.now().strftime("%y-%m-%d") + '.dat'
 
@@ -141,7 +141,7 @@ class PressureServer():
 
 def new_server(*args):
     """
-    This function is called from the common_gauge_server script to start a new
+    This function is called from the MainServer script to start a new
     server.
     """
     print('no connection - starting a new server')
