@@ -3,6 +3,7 @@ This script should start when the computer starts. First, it checks if the measu
 server is running or not. If it is not running, it starts the corresponding
 server (tries only one time!).
 The list of measurement servers with parameters is read from the file List_Of_Servers.py
+Start the servers only if the computer has the same ip as the server from list
 """
 from __future__ import unicode_literals
 import sys, gc, socket
@@ -28,12 +29,15 @@ class ExampleApp(QMainWindow):
     def start(self, **kwargs):
         self.port_server_list = kwargs
         print(self.port_server_list)
-        host = socket.gethostname()
+        host = socket.gethostbyname(socket.gethostname())
         for item in self.port_server_list.items():
             try:
-                name_id, port = item[0], item[1][0]
-                check_connection(host, port, name_id)
-                time.sleep(1)
+                server_ip = item[1][0]
+                print (server_ip, host)
+                if str(server_ip) == host:  # check the server ip
+                    name_id, port = item[0], item[1][1]
+                    check_connection(host, port, name_id)
+                    time.sleep(1)
             except:
                 raise
                 print('some error in check connection')
