@@ -29,11 +29,12 @@ class ExampleApp(QMainWindow):
     def start(self, **kwargs):
         self.port_server_list = kwargs
         print(self.port_server_list)
-        host = socket.gethostname()
+        host = socket.gethostbyname(socket.gethostname())
         for item in self.port_server_list.items():
             try:
                 server_ip = item[1][0]
-                if str(server_ip) == socket.gethostbyname(socket.gethostname()):  # check the server ip
+                print (server_ip, host)
+                if str(server_ip) == host:  # check the server ip
                     name_id, port = item[0], item[1][1]
                     check_connection(host, port, name_id)
                     time.sleep(1)
