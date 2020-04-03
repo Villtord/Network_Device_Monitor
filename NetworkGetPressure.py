@@ -48,7 +48,7 @@ class NetworkGetPressure(QThread):
         try:
             print(self.mySocket.getsockname())
             message = 'so you think you can tell'
-            print('attepmt to send: ', message)
+            print('attempt to send: ', message)
             self.mySocket.setblocking(0)
             try:
                 self.mySocket.send(message.encode())

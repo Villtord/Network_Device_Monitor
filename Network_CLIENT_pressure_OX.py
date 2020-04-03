@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 GUI application which shows updated pressure from the
-Dist Chamber pressure controller.
+Oxidation Chamber pressure controller.
 
-Updated: 24 Feb 2020 Separate server for OxiChamber added
-Updated: 05 Feb 2020
+Last update: 03 Arp 2020
 Created on Sat Apr 21 14:12:26 2018
 
 @author: Victor Rogalev
@@ -13,10 +12,11 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
 from Network_Client_Class import NetworkClientMonitor
+from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
 
-server_name = "OXICHAMBER"
+server_number = 0
+server_name = list(server_list.keys())[server_number]
 host = server_list[server_name][0]
 port = server_list[server_name][1]
 index = int(server_list[server_name][4])
