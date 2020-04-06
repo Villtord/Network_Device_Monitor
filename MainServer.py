@@ -27,13 +27,13 @@ class ExampleApp(QMainWindow):
         self.setCentralWidget(self.label)
 
     def start(self, **kwargs):
-        self.port_server_list = kwargs
-        print(self.port_server_list)
+        self.list_of_servers = kwargs
+        print(self.list_of_servers)
         host = socket.gethostbyname(socket.gethostname())
-        for item in self.port_server_list.items():
+        for item in self.list_of_servers.items():
             try:
                 server_ip = item[1][0]
-                print (server_ip, host)
+                print(server_ip, host)
                 if str(server_ip) == host:  # check the server ip
                     name_id, port = item[0], item[1][1]
                     check_connection(host, port, name_id)
