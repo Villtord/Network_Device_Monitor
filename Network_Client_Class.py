@@ -19,10 +19,12 @@ import gc
 
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.label = QtWidgets.QLabel(self)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(380, 150)
-        self.label = QtWidgets.QLabel(self)
         self.label.setGeometry(QtCore.QRect(0, 0, MainWindow.width(), MainWindow.height()))
         self.label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.label.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -40,7 +42,7 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
         self.pressure_index_to_take = pressure_index_to_take
         self.color = color
         self.setupUi(self)
-        """ Special backgound color and start value for temperature GUI """
+        """ Special background color and start value for temperature GUI """
         if self.port == 63205:
             self.label.setStyleSheet("QLabel { background-color : green; color : "
                                      + self.color + "; }")
@@ -50,17 +52,6 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
                                      + self.color + "; }")
             self.start_pressure = 0.0000000001
         self.label.setText("{:.01e}".format(self.start_pressure))
-        self.main_start()
-
-    def resizeEvent(self, evt):
-        """ Possibility to resize GUI window """
-        font = self.font()
-        font.setPixelSize(self.height() * 0.7)
-        self.label.setFont(font)
-        self.label.setGeometry(0, 0, self.width(), self.height())
-        gc.collect()
-
-    def main_start(self):
         """ Make a separate thread to accept pressure values from server """
         self.networking = NetworkGetPressure(self.host, self.port)  # thread
         self.networking.new_value_trigger.connect(self.update_screen)
@@ -68,12 +59,14 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
         gc.collect()
 
     def update_screen(self, pressure):
-        """ Update window when a new pressure value in networking thread"""
+        """ Update window when a new pressure value in networking thread
+        :param pressure:trigger string
+        """
         try:
             self.pressure = float(pressure.split(',')[self.pressure_index_to_take])  # take index value
             """ If we are getting temperature from the Lakeshore"""
             if self.port == 63205:
-                if (self.pressure < 500):
+                if self.pressure < 500:
                     self.label.setText(str(self.pressure))
             else:
                 """ If we are getting pressure values"""
@@ -81,6 +74,14 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
                     self.label.setText("{:.01e}".format(self.pressure))
         except:
             pass
+        gc.collect()
+
+    def resizeEvent(self, evt):
+        """ Possibility to resize GUI window """
+        font = self.font()
+        font.setPixelSize(self.height() * 0.7)
+        self.label.setFont(font)
+        self.label.setGeometry(0, 0, self.width(), self.height())
         gc.collect()
 
     def __del__(self):

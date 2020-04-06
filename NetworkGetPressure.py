@@ -2,17 +2,18 @@
 """
 Thread to get pressure values from network server located at given host, port.
 
+Last update: 06 April 2020
 Created on Wed Feb  5 15:34:14 2020
 
 @author: Victor Rogalev
 """
-from PyQt5.QtCore import pyqtSignal, QTimer, QThread
+import PyQt5.QtCore
 import socket
 import select
 
 
-class NetworkGetPressure(QThread):
-    new_value_trigger = pyqtSignal('QString')
+class NetworkGetPressure(PyQt5.QtCore.QThread):
+    new_value_trigger = PyQt5.QtCore.pyqtSignal('QString')
 
     def __init__(self, host, port, **kwargs):
         super(self.__class__, self).__init__()
@@ -22,7 +23,7 @@ class NetworkGetPressure(QThread):
 
         """Every self.timing [ms] checking connection with server/new values"""
         self.timing = 1000
-        self.timer_x = QTimer(self)
+        self.timer_x = PyQt5.QtCore.QTimer(self)
         self.timer_x.timeout.connect(self.check_connection)
         self.timer_x.start(self.timing)
 
@@ -48,7 +49,7 @@ class NetworkGetPressure(QThread):
         try:
             print(self.mySocket.getsockname())
             message = 'so you think you can tell'
-            print('attepmt to send: ', message)
+            print('attempt to send: ', message)
             self.mySocket.setblocking(0)
             try:
                 self.mySocket.send(message.encode())
