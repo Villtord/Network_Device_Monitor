@@ -25,6 +25,7 @@ class ExampleApp(QMainWindow):
         self.label = QLabel("WE ARE OFFLINE")
         self.label.setAlignment(Qt.AlignCenter)
         self.setCentralWidget(self.label)
+        self.check_repeated_ports = []
 
     def start(self, **kwargs):
         self.list_of_servers = kwargs
@@ -36,7 +37,12 @@ class ExampleApp(QMainWindow):
                 print(server_ip, host)
                 if str(server_ip) == host:  # check the server ip
                     name_id, port = item[0], item[1][1]
-                    check_connection(host, port, name_id)
+                    if port in self.check_repeated_ports:
+                        print('found duplicate! skipping this server')
+                    else:
+                        self.check_repeated_ports += [port]
+                        check_connection(host, port, name_id)
+                    print (self.check_repeated_ports)
                     time.sleep(1)
             except:
                 raise

@@ -37,7 +37,7 @@ class PressureServer():
         self.com_port_name = server_list[self.name_id][2]
         self.driver_module = importlib.import_module(server_list[self.name_id][3])  # import driver module
         self.driver = self.driver_module.Driver(self.com_port_name)  # initialize driver
-        """configure initial logging"""
+        """configure initial logging"""  # TODO: start only one server if dict.items differ only in channel!!!
         self.filename_dynamic = self.name_id + '-log-dynamic.dat'
         self.old_filename = ""
         with open(self.filename_dynamic, "w+") as f:
@@ -85,7 +85,25 @@ class PressureServer():
             if not msg:
                 self.connections_counter -= 1
                 break
-            client_socket.send(self.pressure.encode())
+            if msg.decode() == 'so you think you can tell':
+                #                print ("received from host: ", msg.decode())
+                client_socket.send(self.pressure.encode())
+            elif ("SETP" in msg.decode()) or ("RANGE" in msg.decode()):
+                self.get_pressure_loop.stop()
+                print("sending command ", msg.decode())
+                flag = True
+                while flag:
+                    time.sleep(0.4)
+                    try:
+                        value = self.driver.get_pressure(msg.decode())
+                        flag = False if value else True
+                    except:
+                        print ("error setting command")
+                        pass
+                client_socket.send(value.encode())
+                self.get_pressure_loop.start()
+            else:
+                pass
 
         print('connected ', str(self.connections_counter), ' client(s)')
         client_socket.shutdown(socket.SHUT_RDWR)
