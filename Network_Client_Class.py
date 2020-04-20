@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 from PyQt5.QtWidgets import QWidget
 from NetworkGetPressure import NetworkGetPressure
 from PyQt5 import QtCore, QtWidgets
+import logging
 import gc
 
 
@@ -63,16 +64,18 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
         :param pressure:trigger string
         """
         try:
-            self.pressure = float(pressure.split(',')[self.pressure_index_to_take])  # take index value
+            self.pressure_to_show = float(pressure.split(',')[self.pressure_index_to_take])  # take index value
             """ If we are getting temperature from the Lakeshore"""
             if self.port == 63205:
-                if self.pressure < 500:
-                    self.label.setText(str(self.pressure))
+                if self.pressure_to_show < 500:
+                    self.label.setText(str(self.pressure_to_show))
             else:
                 """ If we are getting pressure values"""
-                if (self.pressure > 0) and (self.pressure < 1):
-                    self.label.setText("{:.01e}".format(self.pressure))
-        except:
+                if (self.pressure_to_show > 0) and (self.pressure_to_show < 1):
+                    self.label.setText("{:.01e}".format(self.pressure_to_show))
+        except Exception as e:
+            logging.exception(e)
+            self.label.setText(pressure.split(',')[self.pressure_index_to_take])
             pass
         gc.collect()
 

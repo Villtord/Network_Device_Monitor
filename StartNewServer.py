@@ -12,14 +12,15 @@ Created on Sat Apr 21 13:54:20 2018
 
 @author: Victor Rogalev
 """
-import socket
 import _thread
-import time
 import datetime as dt
-import shutil
-from RepeatedTimer import RepeatedTimer
-from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
 import importlib
+import shutil
+import time
+import os
+
+from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
+from RepeatedTimer import RepeatedTimer
 
 
 class PressureServer():
@@ -37,9 +38,11 @@ class PressureServer():
         self.com_port_name = server_list[self.name_id][2]
         self.driver_module = importlib.import_module(server_list[self.name_id][3])  # import driver module
         self.driver = self.driver_module.Driver(self.com_port_name)  # initialize driver
-        """configure initial logging"""  # TODO: start only one server if dict.items differ only in channel!!!
+        """configure initial logging"""
         self.filename_dynamic = self.name_id + '-log-dynamic.dat'
         self.old_filename = ""
+        self.path = os.getcwd()
+        self.log_path = self.path + "/logs"
         with open(self.filename_dynamic, "w+") as f:
             f.write('\n')
 
@@ -98,7 +101,7 @@ class PressureServer():
                         value = self.driver.get_pressure(msg.decode())
                         flag = False if value else True
                     except:
-                        print ("error setting command")
+                        print("error setting command")
                         pass
                 client_socket.send(value.encode())
                 self.get_pressure_loop.start()
@@ -119,7 +122,7 @@ class PressureServer():
             print('no pressure received')
             pass
 
-    def log_the_data(self):
+    def log_the_data(self):  # TODO: save log files to a separate folder
         """ Log the data to a file """
         filename = self.name_id + '_log_' + dt.datetime.now().strftime("%y-%m-%d") + '.dat'
 
@@ -131,7 +134,7 @@ class PressureServer():
 
         """ write the value into dynamic file and copy it to log file """
         with open(self.filename_dynamic, "a+") as f:
-            log_data = dt.datetime.now().strftime("%H:%M:%S")+', ' + self.pressure + '\n'
+            log_data = dt.datetime.now().strftime("%H:%M:%S") + ', ' + self.pressure + '\n'
             f.write(log_data)
         shutil.copy2(self.filename_dynamic, filename)
 

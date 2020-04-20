@@ -13,6 +13,7 @@ class Driver:
     def __init__(self, com_name):
         self.com_name = com_name
         self.pressure_value = 0.0
+        self.data_to_return = ""
 
     def get_pressure(self, *args: "optional command"):
         """ Opens serial connection and request/read the pressure values    """
@@ -41,12 +42,14 @@ class Driver:
         """Handle the received data and decide what to transmit"""
         try:
             self.pressure_value = self.read_str_raw[:-1]
-        except:
-            self.pressure_value = "NAN"
-            pass
-
-        self.read_str = self.pressure_value
-        try:
-            return str(self.read_str)
+            self.data_to_return = self.pressure_value
         except Exception as e:
             logging.exception(e)
+            self.data_to_return = "NAN"
+            pass
+
+        try:
+            return str(self.data_to_return)
+        except Exception as e:
+            logging.exception(e)
+            pass

@@ -12,7 +12,8 @@ import io
 class Driver:
     def __init__(self, com_name):
         self.com_name = com_name
-        self.pressure_value = 0.0
+        self.pressure_string = ""
+        self.data_to_return = ""
 
     def get_pressure(self, *args: "optional command"):
         """ Opens serial connection and request/read the pressure values    """
@@ -42,15 +43,38 @@ class Driver:
             ser_io.write(command_full)  # # request pressure value for channel 2
             self.read_str_raw += ","+ser_io.readline()[7:]  # get only necessary numbers
         ser.close()
-        """Handle the received data and decide what to transmit"""
+        """Handle the received data"""
         try:
-            self.pressure_value = ''.join(self.read_str.split())  # get rid of spaces
+            self.pressure_string = ''.join(self.read_str.split())  # get rid of spaces
         except:
-            self.pressure_value = "NAN"
+            self.pressure_string = "NAN"
             pass
 
-        self.read_str = self.pressure_value
+        """Decide what to transmit"""
         try:
-            return str(self.read_str)
+            for i in self.pressure_string.split(','):
+                try:
+                    self.pressure_value = float(i)
+                    if (self.pressure_value > 0.0000000001) and (self.pressure_value < 0.01):
+                        self.data_to_return += str(self.pressure_value)+","
+                    else:
+                        self.data_to_return += "NAN,"
+                except:
+                    if i == "underrange":
+                        self.data_to_return += "under,"
+                    elif i == "overrange":
+                        self.data_to_return += "over,"
+                    else:
+                        self.data_to_return += "NAN,"
+                    pass
+
         except Exception as e:
             logging.exception(e)
+            self.data_to_return = "NAN"
+            pass
+
+        try:
+            return str(self.data_to_return)
+        except Exception as e:
+            logging.exception(e)
+            pass

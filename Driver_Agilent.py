@@ -13,6 +13,8 @@ class Driver:
     def __init__(self, com_name):
         self.com_name = com_name
         self.pressure_value = 0.0
+        self.data_to_return = ""
+        self.read_str_raw = ""
 
     def get_pressure(self, *args: "optional command"):
         """ Opens serial connection and request/read the pressure values    """
@@ -35,18 +37,34 @@ class Driver:
                 logging.exception(e)
                 pass
         else:
-            ser_io.write("#000F\r")  # request pressure value
+            ser_io.write("#000F\r")  # request pressure value(s) - all connected gauges!!!
             self.read_str_raw = ser_io.readline()  # get only necessary numbers
         ser.close()
         """Handle the received data and decide what to transmit"""
         try:
-            self.pressure_value = self.read_str_raw[1:]
-        except:
-            self.pressure_value = "NAN"
-            pass
+            for i in self.read_str_raw[1:].split(','):
+                try:
+                    self.pressure_value = float(i)
+                    if (self.pressure_value > 0.000000000001) and (self.pressure_value < 0.01):
+                        self.data_to_return += str(self.pressure_value)+","
+                    else:
+                        self.data_to_return += "NAN,"
+                except:
+                    if i == "underrange":
+                        self.data_to_return += "under,"
+                    elif i == "overrange":
+                        self.data_to_return += "over,"
+                    else:
+                        self.data_to_return += "NAN,"
+                    pass
 
-        self.read_str = self.pressure_value
-        try:
-            return str(self.read_str)
         except Exception as e:
             logging.exception(e)
+            self.data_to_return = "NAN"
+            pass
+
+        try:
+            return str(self.data_to_return)
+        except Exception as e:
+            logging.exception(e)
+            pass

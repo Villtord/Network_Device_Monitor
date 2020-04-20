@@ -13,6 +13,7 @@ class Driver:
     def __init__(self, com_name):
         self.com_name = com_name
         self.get_pressure("COM,0")   # request pressure values each 100 ms
+        self.data_to_return = ""
 
     def get_pressure(self, *args: "optional command"):
         """ Opens serial connection and request/read the pressure values    """
@@ -46,16 +47,17 @@ class Driver:
         try:
             self.pressure_value = float(self.read_str_raw.split(',')[1])
         except:
-            self.pressure_value = 0.0
+            self.pressure_value = "NAN"
             pass
         if (self.gauge_status == 0) and (self.pressure_value < 0.01):
-            self.read_str = self.pressure_value
-        elif (self.gauge_status == 1):
-            self.read_str = 0.0  # underrange
-        elif (self.gauge_status == 2):
-            self.read_str = 0.01  # overrange
+            self.data_to_return = self.pressure_value
+        elif self.gauge_status == 1:
+            self.data_to_return = "under"
+        elif self.gauge_status == 2:
+            self.data_to_return = "over"
         try:
             # self.read_str = str("{:.10f}".format(float(0.000001)))
-            return str(self.read_str)
+            return str(self.data_to_return)
         except Exception as e:
             logging.exception(e)
+            pass
