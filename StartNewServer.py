@@ -122,7 +122,9 @@ class PressureServer():
             print('no pressure received')
             pass
 
-    def log_the_data(self):  # TODO: save log files to a separate folder
+    def log_the_data(self):
+        # TODO: save log files to a separate folder
+        # TODO: save log files every 10 seconds while keeping the values in memory in array
         """ Log the data to a file """
         filename = self.name_id + '_log_' + dt.datetime.now().strftime("%y-%m-%d") + '.dat'
 

@@ -30,12 +30,12 @@ class ExampleApp(QMainWindow):
     def start(self, **kwargs):
         self.list_of_servers = kwargs
         print(self.list_of_servers)
-        host = socket.gethostbyname(socket.gethostname())
+        host = [i[4][0] for i in socket.getaddrinfo(socket.gethostname(), None)] # list all IPs of the PC
         for item in self.list_of_servers.items():
             try:
                 server_ip = item[1][0]
                 print(server_ip, host)
-                if str(server_ip) == host:  # check the server ip
+                if str(server_ip) in host:  # check the server ip
                     name_id, port = item[0], item[1][1]
                     if port in self.check_repeated_ports:
                         print('found duplicate! skipping this server')

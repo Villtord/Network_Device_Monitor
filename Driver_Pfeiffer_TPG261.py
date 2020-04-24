@@ -12,10 +12,11 @@ import io
 class Driver:
     def __init__(self, com_name):
         self.com_name = com_name
-        self.get_pressure("COM,0")   # request pressure values each 100 ms
+#        self.get_pressure("COM,0")   # request pressure values each 100 ms
         self.data_to_return = ""
 
     def get_pressure(self, *args: "optional command"):
+        self.data_to_return = ""
         """ Opens serial connection and request/read the pressure values    """
         ser = serial.Serial(self.com_name,
                             baudrate=9600,
@@ -34,6 +35,7 @@ class Driver:
                 self.read_str_raw = ser_io.readline()
             except Exception as e:
                 logging.exception(e)
+                print (e)
                 pass
         else:
             self.read_str_raw = ser_io.readline()

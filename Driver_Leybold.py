@@ -16,6 +16,8 @@ class Driver:
         self.data_to_return = ""
 
     def get_pressure(self, *args: "optional command"):
+        self.pressure_string = ""
+        self.data_to_return = ""
         """ Opens serial connection and request/read the pressure values    """
         ser = serial.Serial(self.com_name,
                             baudrate=9600,
@@ -45,7 +47,7 @@ class Driver:
         ser.close()
         """Handle the received data"""
         try:
-            self.pressure_string = ''.join(self.read_str.split())  # get rid of spaces
+            self.pressure_string = ''.join(self.read_str_raw.split())  # get rid of spaces
         except:
             self.pressure_string = "NAN"
             pass
