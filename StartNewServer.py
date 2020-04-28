@@ -122,9 +122,7 @@ class PressureServer():
             print('no pressure received')
             pass
 
-    def log_the_data(self):
-        # TODO: save log files to a separate folder
-        # TODO: save log files every 10 seconds while keeping the values in memory in array
+    def log_the_data(self):  # TODO: save log files to a separate folder
         """ Log the data to a file """
         filename = self.name_id + '_log_' + dt.datetime.now().strftime("%y-%m-%d") + '.dat'
 
@@ -134,9 +132,12 @@ class PressureServer():
                 f.write('\n')
         self.old_filename = filename
 
+        """ add comma in the end if missing """
+        if self.pressure[-1]!=",":
+            self.pressure += ","
         """ write the value into dynamic file and copy it to log file """
         with open(self.filename_dynamic, "a+") as f:
-            log_data = dt.datetime.now().strftime("%H:%M:%S") + ', ' + self.pressure + '\n'
+            log_data = dt.datetime.now().strftime("%H:%M:%S") + ',' + self.pressure + '\n'
             f.write(log_data)
         shutil.copy2(self.filename_dynamic, filename)
 
