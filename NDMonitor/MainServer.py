@@ -6,7 +6,7 @@ The list of measurement servers with parameters is read from the file List_Of_Se
 Start the servers only if the computer has the same ip as the server from list
 """
 from __future__ import unicode_literals
-import sys, gc, socket
+import sys, gc
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 from PyQt5.QtCore import Qt
 import _thread, time

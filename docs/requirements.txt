@@ -1,0 +1,7 @@
+sphinx
+sphinx-rtd-theme
+pydata-sphinx-theme
+sphinx-autodoc-typehints
+nbsphinx
+pyqt5
+pyserial
