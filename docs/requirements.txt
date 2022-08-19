@@ -4,7 +4,5 @@ pydata-sphinx-theme
 sphinx-autodoc-typehints
 nbsphinx
 ipython
-pyqt5
-pyserial
 myst-parser
 docutils>=0.17
