@@ -14,12 +14,20 @@ The logic is as follows:
 3. list_of_servers provides required info for both main monitoring server as well as clients that get values and show them.
 4. Start main server.
 
-![main server](./docs/_static/Main_server.png){ height="36px" width="36px" }
+![main server](./docs/_static/Main_server.png)
 
 5. Start as many clients as you wish from any PC in your network.
 
-![prep_chamber client](./docs/_static/Prep_Chamber_Client.png){ height="36px" width="36px" }
+![prep_chamber client](./docs/_static/Prep_Chamber_Client.png){ width=50% height=50% }
 
-![analysis_chamber client](./docs/_static/Analysis_Chamber_Client.png){ height="36px" width="36px" }
+![analysis_chamber client](./docs/_static/Analysis_Chamber_Client.png)
 
-![distr_chamber client](./docs/_static/Distribution_Chamber_Client.png){ height="36px" width="36px" }
+![distr_chamber client](./docs/_static/Distribution_Chamber_Client.png)
+
+<img src="https://raw.githubusercontent.com/Villtord/Network_Device_Monitor/master/NDMonitor/docs/_static/Distribution_Chamber_Client.png" width="200px" height="100px"/>
+
+<img src="./docs/_static/Distribution_Chamber_Client.png" width="200px" height="100px"/>
+
+
+
+Feel free to use it in your own projects. 
