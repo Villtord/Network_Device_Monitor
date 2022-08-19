@@ -5,6 +5,8 @@
 
 Welcome to a Network Device Monitor project!
 
+For the latest documentation, see **[ReadTheDocs](https://network-device-monitor.readthedocs.io/en/latest/)**.
+
 This package was originally created for monitoring serial devices in EP4 ARPES lab in Wuerzburg University, mainly UHV pressure controllers of different type.
 
 The logic is as follows:
