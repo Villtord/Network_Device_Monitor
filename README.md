@@ -31,3 +31,5 @@ The logic is as follows:
 <img src="./docs/_static/Oxi.png" width="400px" height="200px"/>
 
 <img src="./docs/_static/LoadLock.png" width="400px" height="200px"/>
+
+<img src="https://github.com/Villtord/Network_Device_Monitor/blob/master/docs/_static/LoadLock.png" width="400px" height="200px"/>

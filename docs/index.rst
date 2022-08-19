@@ -7,8 +7,6 @@ Welcome to Network Device Monitor's documentation!
 ==================================================
 
 .. include:: ../README.md
-   :relative-docs: docs/
-   :relative-images:
    :parser: myst_parser.sphinx_
 
 .. autosummary::
