@@ -30,6 +30,11 @@ class ExampleApp(QMainWindow):
         self.check_repeated_ports = []
 
     def start(self, **kwargs):
+        """
+        This will get the IP of the current PC and start those servers from the list_of_servers that have the same IP.
+        :param kwargs:
+        :return:
+        """
         self.list_of_servers = kwargs
         print(self.list_of_servers)
         host = [i[4][0] for i in socket.getaddrinfo(socket.gethostname(), None)] # list all IPs of the PC
