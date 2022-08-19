@@ -16,11 +16,12 @@ import _thread
 import datetime as dt
 import importlib
 import shutil
+import socket
 import time
 import os
 
-from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
-from RepeatedTimer import RepeatedTimer
+from NDMonitor.List_Of_Servers import server_list
+from NDMonitor.RepeatedTimer import RepeatedTimer
 
 
 class PressureServer():

@@ -12,7 +12,7 @@ from PyQt5.QtCore import Qt
 import _thread, time
 import socket
 
-from NDMonitor import StartNewServer
+from NDMonitor.StartNewServer import new_server
 from NDMonitor.List_Of_Servers import server_list
 
 
@@ -67,7 +67,7 @@ def check_connection(host, port, server_name):
         print('connection established')
     except:
         print('starting a server', server_name)
-        _thread.start_new_thread(StartNewServer.new_server, (server_name,))
+        _thread.start_new_thread(new_server, (server_name,))
         time.sleep(0.5)
         try:
             my_socket.connect((host, port))
