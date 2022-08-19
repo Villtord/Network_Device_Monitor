@@ -6,3 +6,5 @@ nbsphinx
 ipython
 myst-parser
 docutils>=0.17
+pyserial
+pyqt5
