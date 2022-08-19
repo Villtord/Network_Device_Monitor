@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Universal GUI application which shows data values from the corresponding server.
-To start print in the command line:
+To start GUI print in the command line:
 
 path_to_and_python.exe path_to_and_Network_Client_GUI.py server_number
 
@@ -14,21 +14,25 @@ Created on Sat Apr 21 14:12:26 2018
 """
 
 import sys
-
 import PyQt5.QtWidgets
 
-import Network_Client_Class as NCC
-import List_Of_Servers as LoS
+from NDMonitor import Network_Client_Class
+from NDMonitor import List_Of_Servers
 
 
 def main(server_number):
-    server_name = list(LoS.server_list.keys())[server_number]
-    host = LoS.server_list[server_name][0]
-    port = LoS.server_list[server_name][1]
-    index = int(LoS.server_list[server_name][4])
-    color = LoS.server_list[server_name][5]
+    """
+    Creates an instance of QtWidget which displays values for a given server_number from server list.
+    :param server_number:
+    :return:
+    """
+    server_name = list(List_Of_Servers.server_list.keys())[server_number]
+    host = List_Of_Servers.server_list[server_name][0]
+    port = List_Of_Servers.server_list[server_name][1]
+    index = int(List_Of_Servers.server_list[server_name][4])
+    color = List_Of_Servers.server_list[server_name][5]
     app = PyQt5.QtWidgets.QApplication(sys.argv)  # A new instance of QApplication
-    form = NCC.NetworkClientMonitor(host, port, index, color)  # We set the form to be our ExampleApp (design)
+    form = Network_Client_Class.NetworkClientMonitor(host, port, index, color)
     form.setWindowTitle(server_name+' - client')  # Change window name
     form.resize(380, 150)  # Resize the form
     form.show()  # Show the form

@@ -10,8 +10,10 @@ import sys, gc
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 from PyQt5.QtCore import Qt
 import _thread, time
-from List_Of_Servers import *  # server_list is imported from List_Of_Servers.py
-import StartNewServer
+import socket
+
+from NDMonitor import StartNewServer
+from NDMonitor.List_Of_Servers import server_list
 
 
 class ExampleApp(QMainWindow):
@@ -42,7 +44,7 @@ class ExampleApp(QMainWindow):
                     else:
                         self.check_repeated_ports += [port]
                         check_connection(host, port, name_id)
-                    print (self.check_repeated_ports)
+                    print(self.check_repeated_ports)
                     time.sleep(1)
             except:
                 raise

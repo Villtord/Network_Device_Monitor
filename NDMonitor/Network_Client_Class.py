@@ -13,13 +13,14 @@ Created on Sat Apr 21 14:05:33 2018
 """
 from __future__ import unicode_literals
 from PyQt5.QtWidgets import QWidget
-from NetworkGetPressure import NetworkGetPressure
 from PyQt5 import QtCore, QtWidgets
 import logging
 import gc
 
+from NDMonitor.NetworkGetPressure import NetworkGetPressure
 
-class Ui_MainWindow(object):
+
+class UiMainWindow(object):
     def __init__(self):
         self.label = QtWidgets.QLabel(self)
 
@@ -35,7 +36,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
 
 
-class NetworkClientMonitor(QWidget, Ui_MainWindow):
+class NetworkClientMonitor(QWidget, UiMainWindow):
     def __init__(self, host, port, pressure_index_to_take, color, **kwargs):
         super(self.__class__, self).__init__()
         self.host = host
@@ -82,7 +83,7 @@ class NetworkClientMonitor(QWidget, Ui_MainWindow):
     def resizeEvent(self, evt):
         """ Possibility to resize GUI window """
         font = self.font()
-        font.setPixelSize(self.height() * 0.7)
+        font.setPixelSize(int(self.height() * 0.7))
         self.label.setFont(font)
         self.label.setGeometry(0, 0, self.width(), self.height())
         gc.collect()

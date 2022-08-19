@@ -13,6 +13,9 @@ import select
 
 
 class NetworkGetPressure(PyQt5.QtCore.QThread):
+    """
+    Thread to connect to a server and start getting values
+    """
     new_value_trigger = PyQt5.QtCore.pyqtSignal('QString')
 
     def __init__(self, host, port, **kwargs):

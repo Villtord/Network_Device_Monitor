@@ -10,6 +10,9 @@ import io
 
 
 class Driver:
+    """
+    Driver for Agilent pressure control device.
+    """
     def __init__(self, com_name):
         self.com_name = com_name
         self.pressure_value = 0.0
