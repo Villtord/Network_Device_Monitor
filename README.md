@@ -12,22 +12,20 @@ The logic is as follows:
 1. Configure list_of_servers for your own system by editing dictionary.
 2. Provide/write a driver for your serial device (see examples here).
 3. list_of_servers provides required info for both main monitoring server as well as clients that get values and show them.
-4. Start main server.
+4. Start the Main Server - this will only start those servers which IP corresponds to the current IP - feel free to change it.
 
-![main server](./docs/_static/Main_server.png)
+<img src="./docs/_static/Main_server.png" width="250px" height="150px"/>
 
 5. Start as many clients as you wish from any PC in your network.
 
-![prep_chamber client](./docs/_static/Prep_Chamber_Client.png){ width=50% height=50% }
+<img src="./docs/_static/Prep_Chamber_Client.png" width="400px" height="200px"/>
 
-![analysis_chamber client](./docs/_static/Analysis_Chamber_Client.png)
+<img src="./docs/_static/Lakeshore.png" width="400px" height="200px"/>
 
-![distr_chamber client](./docs/_static/Distribution_Chamber_Client.png)
+<img src="./docs/_static/Analysis_Chamber_Client.png" width="400px" height="200px"/>
 
-<img src="https://raw.githubusercontent.com/Villtord/Network_Device_Monitor/master/NDMonitor/docs/_static/Distribution_Chamber_Client.png" width="200px" height="100px"/>
+<img src="./docs/_static/Distribution_Chamber_Client.png" width="400px" height="200px"/>
 
-<img src="./docs/_static/Distribution_Chamber_Client.png" width="200px" height="100px"/>
+<img src="./docs/_static/Oxi.png" width="400px" height="200px"/>
 
-
-
-Feel free to use it in your own projects. 
+<img src="./docs/_static/LoadLock.png" width="400px" height="200px"/>
