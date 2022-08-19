@@ -19,7 +19,7 @@ class Driver:
         self.data_to_return = ""
         self.read_str_raw = ""
 
-    def get_pressure(self, *args: "optional command"):
+    def get_pressure(self, *args):
         self.pressure_value = 0.0
         self.data_to_return = ""
         self.read_str_raw = ""

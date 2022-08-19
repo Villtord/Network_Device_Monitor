@@ -15,7 +15,7 @@ class Driver:
 #        self.get_pressure("COM,0")   # request pressure values each 100 ms
         self.data_to_return = ""
 
-    def get_pressure(self, *args: "optional command"):
+    def get_pressure(self, *args):
         self.data_to_return = ""
         """ Opens serial connection and request/read the pressure values    """
         ser = serial.Serial(self.com_name,
