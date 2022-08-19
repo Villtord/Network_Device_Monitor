@@ -1,4 +1,4 @@
-name: /scratch/eir17846/PycharmProjects/venv/network_monitor
+name: base
 channels:
   - conda-forge
   - defaults
