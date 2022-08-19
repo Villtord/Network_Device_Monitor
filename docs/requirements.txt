@@ -6,3 +6,4 @@ nbsphinx
 ipython
 pyqt5
 pyserial
+docutils>=0.17

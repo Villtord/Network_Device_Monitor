@@ -6,11 +6,15 @@
 Welcome to Network Device Monitor's documentation!
 ==================================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
 
+.. autosummary::
+   :toctree: _autosummary
+   :template: custom-module-template.rst
+   :recursive:
 
+   NDMonitor
 
 Indices and tables
 ==================
@@ -19,9 +23,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. autosummary::
-   :toctree: _autosummary
-   :template: custom-module-template.rst
-   :recursive:
 
-   NDMonitor
