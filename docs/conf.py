@@ -32,7 +32,8 @@ extensions = [
     'sphinx.ext.viewcode',  # Add a link to the Python source code for classes, functions etc.
     'sphinx_autodoc_typehints', # Automatically document param types (less noise in class signature)
     'nbsphinx',  # Integrate Jupyter Notebooks and Sphinx
-    'IPython.sphinxext.ipython_console_highlighting'
+    'IPython.sphinxext.ipython_console_highlighting',
+    'myst_parser',  # To include md documents into rst docs
 ]
 
 # Add any paths that contain templates here, relative to this directory.
