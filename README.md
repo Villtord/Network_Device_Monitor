@@ -1,4 +1,4 @@
-![CI](https://github.com/Villtord/Network_Device_Monitor/actions/workflows/python-app.yml/badge.svg)
+![CI](https://github.com/Villtord/Network_Device_Monitor/actions/workflows/python-app.yml/badge.svg?event=push)
 [![Documentation Status](https://readthedocs.org/projects/network-device-monitor/badge/?version=latest)](https://network-device-monitor.readthedocs.io/en/latest/?badge=latest)
 
 ## Network Device Monitor
