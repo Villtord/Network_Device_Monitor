@@ -16,6 +16,7 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtCore, QtWidgets
 import logging
 import gc
+from typing import List, Tuple, Union, TypeVar
 
 from NDMonitor.NetworkGetPressure import NetworkGetPressure
 
@@ -24,7 +25,7 @@ class UiMainWindow(object):
     def __init__(self):
         self.label = QtWidgets.QLabel(self)
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow) -> None:
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(380, 150)
         self.label.setGeometry(QtCore.QRect(0, 0, MainWindow.width(), MainWindow.height()))
@@ -37,12 +38,21 @@ class UiMainWindow(object):
 
 
 class NetworkClientMonitor(QWidget, UiMainWindow):
-    def __init__(self, host, port, pressure_index_to_take, color, **kwargs):
+    def __init__(self, host: str, port: int, pressure_index_to_take: int, color: str, **kwargs):
+        """
+
+        :param host: IP of the server to connect to
+        :param port: Port to connect to
+        :param pressure_index_to_take: If there are more than one values coming from gauge - this is a filter.
+        :param color: color as a string
+        :param kwargs:
+        """
         super(self.__class__, self).__init__()
         self.host = host
         self.port = port
         self.pressure_index_to_take = pressure_index_to_take
         self.color = color
+        self.pressure_to_show = ''
         self.setupUi(self)
         """ Special background color and start value for temperature GUI """
         if self.port == 63205:
@@ -60,7 +70,7 @@ class NetworkClientMonitor(QWidget, UiMainWindow):
         self.networking.start()  # start this separate thread to get pressure
         gc.collect()
 
-    def update_screen(self, pressure):
+    def update_screen(self, pressure: str):
         """ Update window when a new pressure value in networking thread
         :param pressure:trigger string
         """
